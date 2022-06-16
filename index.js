@@ -1,9 +1,9 @@
 'use strict';
 
-const { Sequelize, DataTypes } = require('sequelize');
-
-const sequelize = new Sequelize(process.env.DATABASE_URL);
+const { sequelize, FoodModel } = require('./src/models');
 
 sequelize.sync()
-  .then(() => console.log('Successful Connection'))
+  .then(() => {
+    console.log('Successful Connection');
+  })
   .catch(err => console.error(err));
