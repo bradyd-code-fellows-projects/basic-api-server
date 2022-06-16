@@ -31,30 +31,39 @@ describe('Testing REST API', () => {
 
   });
 
+  let food = {
+    id: 1,
+    name: 'ribs',
+    baseType: 'pork',
+  };
+
   describe('CRUD Status Tests', () => {
 
     test('Read a list of records using GET', async () => {
-      // let response = await mockRequest.get('/food');
-      // expect(response.status).toEqual(200);
-      expect(true).toBe(true);
+      let response = await mockRequest.get('/food');
+      expect(response.status).toEqual(200);
     });
 
     test('Read a single record using GET', async () => {
-      // let response = await mockRequest.get('/food/:id');
-      // expect(response.status).toEqual(200);
-      expect(true).toBe(true);
+      let response = await mockRequest.get('/food/1');
+      expect(response.status).toEqual(200);
+    });
+
+    test('Add a single record using POST', async () => {
+      let response = await mockRequest.post('/food').send(food);
+      expect(response.status).toEqual(200);
+      expect(response.body.name).toEqual('ribs');
+      expect(response.body.baseType).toEqual('pork');
     });
 
     test('Update a record using PUT', async () => {
-      // let response = await mockRequest.put('/food/:id');
-      // expect(response.status).toEqual(200);
-      expect(true).toBe(true);
+      let response = await mockRequest.put('/food/1');
+      expect(response.status).toEqual(200);
     });
 
     test('Destroy a record using DELETE', async () => {
-      // let response = await mockRequest.delete('/food/:id');
-      // expect(response.status).toEqual(200);
-      expect(true).toBe(true);
+      let response = await mockRequest.delete('/food/1');
+      expect(response.status).toEqual(200);
     });
 
   });
