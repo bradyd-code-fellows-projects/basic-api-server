@@ -16,7 +16,6 @@ afterAll(async () => {
 describe('Testing REST API', () => {
 
   describe('Error Handler Tests', () => {
-
     test('404 on a bad route', async () => {
       let response = await mockRequest.get('/blah');
       expect(response.status).toEqual(404);
@@ -28,7 +27,6 @@ describe('Testing REST API', () => {
       expect(response.status).toEqual(404);
       expect(response.text).toEqual('Not found');
     });
-
   });
 
   let food = {
@@ -38,34 +36,69 @@ describe('Testing REST API', () => {
   };
 
   describe('CRUD Status Tests', () => {
+    describe('Food routes', () => {
+      test('Read a list of records using GET', async () => {
+        let response = await mockRequest.get('/food');
+        expect(response.status).toEqual(200);
+      });
 
-    test('Read a list of records using GET', async () => {
-      let response = await mockRequest.get('/food');
-      expect(response.status).toEqual(200);
+      test('Read a single record using GET', async () => {
+        let response = await mockRequest.get('/food/1');
+        expect(response.status).toEqual(200);
+      });
+
+      test('Add a single record using POST', async () => {
+        let response = await mockRequest.post('/food').send(food);
+        expect(response.status).toEqual(200);
+        expect(response.body.name).toEqual('ribs');
+        expect(response.body.baseType).toEqual('pork');
+      });
+
+      test('Update a record using PUT', async () => {
+        let response = await mockRequest.put('/food/1');
+        expect(response.status).toEqual(200);
+      });
+
+      test('Destroy a record using DELETE', async () => {
+        let response = await mockRequest.delete('/food/1');
+        expect(response.status).toEqual(200);
+      });
     });
 
-    test('Read a single record using GET', async () => {
-      let response = await mockRequest.get('/food/1');
-      expect(response.status).toEqual(200);
-    });
+    let vehicle = {
+      vehicleType: 'sedan',
+      vehicleMake: 'Other',
+      vehicleModel: 'Clown Car',
+    };
 
-    test('Add a single record using POST', async () => {
-      let response = await mockRequest.post('/food').send(food);
-      expect(response.status).toEqual(200);
-      expect(response.body.name).toEqual('ribs');
-      expect(response.body.baseType).toEqual('pork');
-    });
+    describe('Vehicle Routes', () => {
+      test('Read a list of records using GET', async () => {
+        let response = await mockRequest.get('/vehicle');
+        expect(response.status).toEqual(200);
+      });
 
-    test('Update a record using PUT', async () => {
-      let response = await mockRequest.put('/food/1');
-      expect(response.status).toEqual(200);
-    });
+      test('Read a single record using GET', async () => {
+        let response = await mockRequest.get('/vehicle/1');
+        expect(response.status).toEqual(200);
+      });
 
-    test('Destroy a record using DELETE', async () => {
-      let response = await mockRequest.delete('/food/1');
-      expect(response.status).toEqual(200);
-    });
+      test('Add a single record using POST', async () => {
+        let response = await mockRequest.post('/vehicle').send(vehicle);
+        expect(response.status).toEqual(200);
+        expect(response.body.vehicleType).toEqual('sedan');
+        expect(response.body.vehicleMake).toEqual('Other');
+        expect(response.body.vehicleModel).toEqual('Clown Car');
+      });
 
+      test('Update a record using PUT', async () => {
+        let response = await mockRequest.put('/vehicle/1');
+        expect(response.status).toEqual(200);
+      });
+
+      test('Destroy a record using DELETE', async () => {
+        let response = await mockRequest.delete('/vehicle/1');
+        expect(response.status).toEqual(200);
+      });
+    });
   });
-
 });
